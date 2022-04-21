@@ -8,5 +8,7 @@
 import UIKit
 struct ToDo {
     let title:String
-    let isCheck = false
+    let content:String
+    let status:String
+    let timer:Date
 }

@@ -7,24 +7,160 @@
 
 import UIKit
 
-class AddTodoViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.title = "Add ToDO"
-        configureItems()
-     
+enum Status: Int, CaseIterable {
+    case all = 0
+    case toDo = 1
+    case inProgress = 2
+    case done = 3
+}
+
+enum State {
+    case add
+    case edit
+    
+    
+}
+
+extension Status {
+    var name: String {
+        switch self {
+        case .all:
+            return "All"
+        case .toDo:
+            return "To do"
+        case .inProgress:
+            return "In progress"
+        case .done:
+            return "Done"
+        }
     }
 
+//    func nextTo(index:Int) -> String {
+//        switch index {
+//        case 1:
+//            return "Todo"
+//        case 2:
+//            return "Improgress"
+//        case 3:
+//            return "Drio"
+//        default:
+//            return "All"
+//
+//    }
+}
+
+class AddTodoViewController: BaseViewController {
+    // MARK: - View
+
+    @IBOutlet weak var lablePickerView: UITextField!
+    @IBOutlet private var textViewContent: UITextView!
+    @IBOutlet private var pickerDate: UIDatePicker!
+//    @IBOutlet private var pickerStatus: UIPickerView!
+    @IBOutlet private var textFieldTitle: UITextField!
+    
+    var viewPickerStatus = PickerViewStatus()
+//    @IBOutlet private var bottomPickerViewLC: NSLayoutConstraint!
+
+    // MARK: - data
+
+    private var dataPickerStatus = Status.allCases
+    var checkData = true
+    var checkBack = true
+    var state = State.add
+    var dataTodo = ToDo(title: "", content: "", status: "", timer: Date.now)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+//        pickerStatus.dataSource = self
+//        pickerStatus.delegate = self
+
+        configureItems()
+        addPickerViewStatus()
+
+    }
+   
     private func configureItems() {
+        title = state == .add ? "Add ToDo" : "Edit ToDo"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Add",
             style: .done,
             target: self,
             action: #selector(addTodo(_:))
         )
+        checkStateSelect()
     }
-    
+
+    private func addPickerViewStatus() {
+     
+        viewPickerStatus.frame = CGRect(x:0, y: 414, width: 414, height: 414)
+        view.addSubview(viewPickerStatus)
+        
+        NSLayoutConstraint.activate([
+            viewPickerStatus.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            viewPickerStatus.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            viewPickerStatus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            viewPickerStatus.topAnchor.constraint(equalTo: view.topAnchor, constant: 414)
+           
+        ])
+        
+    }
+                        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+//        bottomPickerViewLC.constant = 0
+//        UIView.animate(withDuration: 0.5) {
+//            self.view.layoutIfNeeded()
+//        }
+    }
+
     @objc private func addTodo(_ sender: UIBarButtonItem) {
-        print("123")
+        
+        switch state {
+        case .add:
+            navigationController?.popViewController(animated: true)
+        case .edit:
+            if checkBack {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(
+                    title: "Save",
+                    style: .done,
+                    target: self,
+                    action: #selector(addTodo(_:))
+                )
+                checkStateSelect()
+            } else {
+                navigationController?.popViewController(animated: true)
+            }
+            checkBack = !checkBack
+        }
+    }
+
+    // MARK: - CHECK STATE SELECT
+
+    func checkStateSelect() {
+        textViewContent.isEditable = state == .add
+        pickerDate.isEnabled = state == .add
+//        pickerStatus.isUserInteractionEnabled = state == .add
+        textFieldTitle.isEnabled = state == .add
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+
+extension AddTodoViewController: UIPickerViewDelegate {
+}
+
+extension AddTodoViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        dataPickerStatus.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        dataPickerStatus[row].name
     }
 }

@@ -21,3 +21,21 @@ class TodoCell: UITableViewCell {
     }
     
 }
+//extension UITableView {
+//    func register<T: UITableView >(aClass: T.Type) {
+//        let className = String(describing: aClass)
+//        register(UINib(nibName: className, bundle: nil),forCellReuseIdentifier: className)
+//    }
+//
+//    func dequeueCell<T: UITableView>(aClass: T.Type, indexPath: IndexPath) -> T {
+//        let className = String(describing: aClass)
+//        guard let cell = dequeueReusableCell(withIdentifier: className, for: indexPath) as? T else {
+//            assertionFailure("\(className) isn't exist")
+//            return T()
+//        }
+//        return cell
+//    }
+//
+//
+//}
+

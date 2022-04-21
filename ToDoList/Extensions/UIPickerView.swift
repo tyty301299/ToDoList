@@ -6,3 +6,4 @@
 //
 
 import Foundation
+extension UIPic

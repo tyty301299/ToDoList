@@ -21,7 +21,7 @@
                                 <segments>
                                     <segment title="All"/>
                                     <segment title="Todo"/>
-                                    <segment title="improgres"/>
+                                    <segment title="Improgres"/>
                                     <segment title="Drio"/>
                                 </segments>
                             </segmentedControl>
