@@ -9,16 +9,11 @@ import UIKit
 
 extension UIViewController {
     // MARK: - Navigator
+
     func pushViewController(_ viewController: UIViewController) {
-        self.navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
-    
-    // MARK: - PROGRESS
-    
 }
-
-
-
 
 class CircleView: UIView {
     override func layoutSubviews() {

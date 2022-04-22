@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="segmentComponent" destination="cHg-hI-ZhO" id="cpq-bk-9gP"/>
+                <outlet property="tableViewToDoList" destination="cGq-PK-grY" id="hOU-IR-6Oh"/>
+                <outlet property="view" destination="hAC-k7-fLe" id="NFk-zy-JAQ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="hAC-k7-fLe">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cHg-hI-ZhO">
+                    <rect key="frame" x="0.0" y="44" width="414" height="32"/>
+                    <segments>
+                        <segment title="All"/>
+                        <segment title="Todo"/>
+                        <segment title="Improgres"/>
+                        <segment title="Done"/>
+                    </segments>
+                </segmentedControl>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cGq-PK-grY">
+                    <rect key="frame" x="0.0" y="85" width="414" height="777"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="FcY-xg-3Tu"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="cHg-hI-ZhO" firstAttribute="top" secondItem="FcY-xg-3Tu" secondAttribute="top" id="3zo-Lw-rIN"/>
+                <constraint firstItem="cGq-PK-grY" firstAttribute="top" secondItem="cHg-hI-ZhO" secondAttribute="bottom" constant="10" id="9DG-1x-BSG"/>
+                <constraint firstItem="cHg-hI-ZhO" firstAttribute="leading" secondItem="FcY-xg-3Tu" secondAttribute="leading" id="V31-2v-CTg"/>
+                <constraint firstItem="FcY-xg-3Tu" firstAttribute="bottom" secondItem="cGq-PK-grY" secondAttribute="bottom" id="VSJ-3a-qaI"/>
+                <constraint firstItem="FcY-xg-3Tu" firstAttribute="trailing" secondItem="cGq-PK-grY" secondAttribute="trailing" id="Xrz-Fl-caa"/>
+                <constraint firstItem="cHg-hI-ZhO" firstAttribute="trailing" secondItem="FcY-xg-3Tu" secondAttribute="trailing" id="dP3-ug-vLE"/>
+                <constraint firstItem="cGq-PK-grY" firstAttribute="leading" secondItem="FcY-xg-3Tu" secondAttribute="leading" id="jGt-Mq-9x4"/>
+            </constraints>
+            <point key="canvasLocation" x="419" y="-613"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

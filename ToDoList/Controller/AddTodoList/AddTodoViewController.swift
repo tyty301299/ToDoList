@@ -7,57 +7,15 @@
 
 import UIKit
 
-enum Status: Int, CaseIterable {
-    case all = 0
-    case toDo = 1
-    case inProgress = 2
-    case done = 3
-}
-
-enum State {
-    case add
-    case edit
-    
-    
-}
-
-extension Status {
-    var name: String {
-        switch self {
-        case .all:
-            return "All"
-        case .toDo:
-            return "To do"
-        case .inProgress:
-            return "In progress"
-        case .done:
-            return "Done"
-        }
-    }
-
-//    func nextTo(index:Int) -> String {
-//        switch index {
-//        case 1:
-//            return "Todo"
-//        case 2:
-//            return "Improgress"
-//        case 3:
-//            return "Drio"
-//        default:
-//            return "All"
-//
-//    }
-}
-
 class AddTodoViewController: BaseViewController {
     // MARK: - View
 
-    @IBOutlet weak var lablePickerView: UITextField!
+    @IBOutlet var lablePickerView: UITextField!
     @IBOutlet private var textViewContent: UITextView!
     @IBOutlet private var pickerDate: UIDatePicker!
 //    @IBOutlet private var pickerStatus: UIPickerView!
     @IBOutlet private var textFieldTitle: UITextField!
-    
+
     var viewPickerStatus = PickerViewStatus()
 //    @IBOutlet private var bottomPickerViewLC: NSLayoutConstraint!
 
@@ -67,19 +25,18 @@ class AddTodoViewController: BaseViewController {
     var checkData = true
     var checkBack = true
     var state = State.add
-    var dataTodo = ToDo(title: "", content: "", status: "", timer: Date.now)
+    var dataTodo: ToDo?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
 //        pickerStatus.dataSource = self
 //        pickerStatus.delegate = self
 
         configureItems()
         addPickerViewStatus()
-
     }
-   
+
     private func configureItems() {
         title = state == .add ? "Add ToDo" : "Edit ToDo"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -92,20 +49,18 @@ class AddTodoViewController: BaseViewController {
     }
 
     private func addPickerViewStatus() {
-     
-        viewPickerStatus.frame = CGRect(x:0, y: 414, width: 414, height: 414)
+        viewPickerStatus.frame = CGRect(x: 0, y: 414, width: 414, height: 414)
         view.addSubview(viewPickerStatus)
-        
+
         NSLayoutConstraint.activate([
             viewPickerStatus.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             viewPickerStatus.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             viewPickerStatus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewPickerStatus.topAnchor.constraint(equalTo: view.topAnchor, constant: 414)
-           
+            viewPickerStatus.topAnchor.constraint(equalTo: view.topAnchor, constant: 414),
+
         ])
-        
     }
-                        
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -116,7 +71,6 @@ class AddTodoViewController: BaseViewController {
     }
 
     @objc private func addTodo(_ sender: UIBarButtonItem) {
-        
         switch state {
         case .add:
             navigationController?.popViewController(animated: true)

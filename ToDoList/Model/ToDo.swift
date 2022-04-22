@@ -6,9 +6,10 @@
 //
 
 import UIKit
+
 struct ToDo {
-    let title:String
-    let content:String
-    let status:String
-    let timer:Date
+    let title: String
+    let content: String
+    let status: Status
+    let timer: Date
 }

@@ -8,16 +8,14 @@
 import UIKit
 
 class PickerViewStatus: UIView {
-    
-    @IBOutlet weak var itemDone: UIBarButtonItem!
-    @IBOutlet weak var pickerViewStatus: UIPickerView!
-    @IBOutlet weak var toolBarTop: UIToolbar!
-    override init(frame: CGRect){
+    @IBOutlet var itemDone: UIBarButtonItem!
+    @IBOutlet var pickerViewStatus: UIPickerView!
+    @IBOutlet var toolBarTop: UIToolbar!
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
 }
