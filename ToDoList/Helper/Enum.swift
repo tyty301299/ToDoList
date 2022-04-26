@@ -5,7 +5,7 @@
 //  Created by Nguyen Ty on 22/04/2022.
 //
 
-import Foundation
+import UIKit
 
 enum Status: Int, CaseIterable {
     case all = 0
@@ -20,9 +20,9 @@ extension Status {
         case .all:
             return "All"
         case .toDo:
-            return "To do"
+            return "ToDo"
         case .inProgress:
-            return "In progress"
+            return "In Progress"
         case .done:
             return "Done"
         }

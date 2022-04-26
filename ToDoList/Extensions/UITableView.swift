@@ -8,6 +8,11 @@
 import UIKit
 
 extension UITableView {
+    func setUpTimerToString(dateTime: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/YYY"
+        return dateFormatter.string(from: dateTime)
+    }
     func register<T: UITableViewCell>(aClass: T.Type) {
         let className = String(describing: aClass)
         register(UINib(nibName: className, bundle: nil), forCellReuseIdentifier: className)

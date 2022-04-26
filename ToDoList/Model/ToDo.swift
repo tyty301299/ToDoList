@@ -8,8 +8,9 @@
 import UIKit
 
 struct ToDo {
-    let title: String
-    let content: String
-    let status: Status
-    let timer: Date
+    var id: Int
+    var title: String
+    var content: String
+    var status: Status
+    var timer: Date
 }

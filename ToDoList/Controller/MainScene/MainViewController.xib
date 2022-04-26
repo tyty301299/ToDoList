@@ -10,8 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="ToDoList" customModuleProvider="target">
             <connections>
-                <outlet property="segmentComponent" destination="cHg-hI-ZhO" id="cpq-bk-9gP"/>
-                <outlet property="tableViewToDoList" destination="cGq-PK-grY" id="hOU-IR-6Oh"/>
+                <outlet property="componentSegmentedControl" destination="cHg-hI-ZhO" id="cpq-bk-9gP"/>
+                <outlet property="todoListTableView" destination="cGq-PK-grY" id="hOU-IR-6Oh"/>
                 <outlet property="view" destination="hAC-k7-fLe" id="NFk-zy-JAQ"/>
             </connections>
         </placeholder>
@@ -22,12 +22,16 @@
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cHg-hI-ZhO">
                     <rect key="frame" x="0.0" y="44" width="414" height="32"/>
+                    <color key="backgroundColor" red="0.40784313725490196" green="0.40392156862745099" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <segments>
                         <segment title="All"/>
                         <segment title="Todo"/>
                         <segment title="Improgres"/>
                         <segment title="Done"/>
                     </segments>
+                    <connections>
+                        <action selector="onTapSegmentComponent:" destination="-1" eventType="valueChanged" id="heU-Pl-Szb"/>
+                    </connections>
                 </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cGq-PK-grY">
                     <rect key="frame" x="0.0" y="85" width="414" height="777"/>
@@ -45,7 +49,7 @@
                 <constraint firstItem="cHg-hI-ZhO" firstAttribute="trailing" secondItem="FcY-xg-3Tu" secondAttribute="trailing" id="dP3-ug-vLE"/>
                 <constraint firstItem="cGq-PK-grY" firstAttribute="leading" secondItem="FcY-xg-3Tu" secondAttribute="leading" id="jGt-Mq-9x4"/>
             </constraints>
-            <point key="canvasLocation" x="419" y="-613"/>
+            <point key="canvasLocation" x="418.84057971014494" y="-613.39285714285711"/>
         </view>
     </objects>
     <resources>
