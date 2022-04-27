@@ -26,6 +26,7 @@
 		B48AA7C6281033820050C06E /* UIViewController+Exts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AA7C5281033820050C06E /* UIViewController+Exts.swift */; };
 		B48AA7CE2810CDAC0050C06E /* TodoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AA7CC2810CDAC0050C06E /* TodoCell.swift */; };
 		B48AA7CF2810CDAC0050C06E /* TodoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B48AA7CD2810CDAC0050C06E /* TodoCell.xib */; };
+		B4B2446B2818D0AB00070449 /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B2446A2818D0AB00070449 /* Title.swift */; };
 		B4F4FCC82812916B003BB2B9 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4FCC72812916B003BB2B9 /* UITableView.swift */; };
 		B4F4FCCA28129A07003BB2B9 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4FCC928129A07003BB2B9 /* Enum.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		B48AA7C5281033820050C06E /* UIViewController+Exts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Exts.swift"; sourceTree = "<group>"; };
 		B48AA7CC2810CDAC0050C06E /* TodoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCell.swift; sourceTree = "<group>"; };
 		B48AA7CD2810CDAC0050C06E /* TodoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoCell.xib; sourceTree = "<group>"; };
+		B4B2446A2818D0AB00070449 /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		B4F4FCC72812916B003BB2B9 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		B4F4FCC928129A07003BB2B9 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				B475064A280FE41800CCD831 /* ToDo.swift */,
+				B4B2446A2818D0AB00070449 /* Title.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B475063B280FE35F00CCD831 /* MainViewController.swift in Sources */,
+				B4B2446B2818D0AB00070449 /* Title.swift in Sources */,
 				B475066B280FF47400CCD831 /* Servies.swift in Sources */,
 				B48AA7C6281033820050C06E /* UIViewController+Exts.swift in Sources */,
 				B4750637280FE35F00CCD831 /* AppDelegate.swift in Sources */,

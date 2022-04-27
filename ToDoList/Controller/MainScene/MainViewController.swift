@@ -8,14 +8,13 @@
 import UIKit
 
 class MainViewController: BaseViewController {
-    @IBOutlet var componentSegmentedControl: UISegmentedControl!
-    @IBOutlet var todoListTableView: UITableView!
+    @IBOutlet private var statusSegment: UISegmentedControl!
+    @IBOutlet private var todoListTableView: UITableView!
 
-    var checkSegment = true
+    var statusDataSegments: Status = .all
 
-    var filterDatas: [ToDo] = []
-
-    var allDatas: [ToDo] = [
+    private var filterDatas: [ToDo] = []
+    private var allDatas: [ToDo] = [
         ToDo(id: 1, title: "1", content: "2", status: Status.toDo, timer: Date.now),
         ToDo(id: 2, title: "1", content: "2", status: Status.toDo, timer: Date.now),
         ToDo(id: 3, title: "1", content: "2", status: Status.done, timer: Date.now),
@@ -29,28 +28,19 @@ class MainViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "To Do"
-
-        todoListTableView.dataSource = self
-        todoListTableView.delegate = self
-        todoListTableView.separatorStyle = .none
-
+        setupTableView()
         configureItems()
-        navigationController?.navigationBar.tintColor = UIColor(red: 104 / 255,
-                                                                green: 103 / 255,
-                                                                blue: 246 / 255,
-                                                                alpha: 1)
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(onTapNextViewController))
-        navigationItem.backButtonTitle = ""
-        todoListTableView.register(aClass: TodoCell.self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         reloadDataTable()
+    }
+
+    private func setupTableView() {
+        todoListTableView.dataSource = self
+        todoListTableView.delegate = self
+        todoListTableView.separatorStyle = .none
+        todoListTableView.register(aClass: TodoCell.self)
     }
 
     // MARK: - Func push ViewController
@@ -67,31 +57,31 @@ class MainViewController: BaseViewController {
     // MARK: - Func on tap segment
 
     @IBAction func onTapSegmentComponent(_ segmentComponent: UISegmentedControl) {
+        statusDataSegments = Status(rawValue: statusSegment.selectedSegmentIndex) ?? .all
         reloadDataTable()
     }
 
     func reloadDataTable() {
-        guard let state = Status(rawValue: componentSegmentedControl.selectedSegmentIndex) else { return }
-        switch state {
-        case .all:
-            checkSegment = true
-
-        default:
-            checkSegment = false
-            filterDatas = allDatas.filter { $0.status == state }
+        if statusDataSegments != .all {
+            filterDatas = allDatas.filter { $0.status == statusDataSegments }
         }
         todoListTableView.reloadData()
     }
 
-    private func configureItems() {
+    func configureItems() {
+        title = "To Do"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
-            action: nil
-        )
+            action: #selector(onTapNextViewController))
+        navigationItem.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = UIColor(red: 104 / 255,
+                                                                green: 103 / 255,
+                                                                blue: 246 / 255,
+                                                                alpha: 1)
     }
 
-    func setUpImageBackGround(datas: [ToDo]) {
+    private func setUpImageBackGround(datas: [ToDo]) {
         if datas.isEmpty {
             todoListTableView.backgroundView = UIImageView(image: UIImage(named: "table"))
             todoListTableView.backgroundView?.contentMode = .scaleAspectFit
@@ -106,10 +96,11 @@ class MainViewController: BaseViewController {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewControllerAdd = AddTodoViewController()
-        viewControllerAdd.state = .edit
-        if checkSegment {
+        viewControllerAdd.state = .view
+        switch statusDataSegments {
+        case .all:
             viewControllerAdd.dataTodo = allDatas[indexPath.row]
-        } else {
+        default:
             viewControllerAdd.dataTodo = filterDatas[indexPath.row]
         }
         viewControllerAdd.delegate = self
@@ -127,19 +118,22 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if checkSegment {
+        switch statusDataSegments {
+        case .all:
             setUpImageBackGround(datas: allDatas)
             return allDatas.count
+        default:
+            setUpImageBackGround(datas: filterDatas)
+            return filterDatas.count
         }
-        setUpImageBackGround(datas: filterDatas)
-        return filterDatas.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(aClass: TodoCell.self, indexPath: indexPath)
-        if checkSegment {
+        switch statusDataSegments {
+        case .all:
             cell.insertData(dataToDo: allDatas[indexPath.row])
-        } else {
+        default:
             cell.insertData(dataToDo: filterDatas[indexPath.row])
         }
         cell.boderConstainerStackView(cornerRadius: cell.frame.height / 20)
@@ -150,8 +144,7 @@ extension MainViewController: UITableViewDataSource {
         if editingStyle == .delete {
             var toDoDelete: ToDo?
             tableView.beginUpdates()
-            guard let state = Status(rawValue: componentSegmentedControl.selectedSegmentIndex) else { return }
-            switch state {
+            switch statusDataSegments {
             case .all:
                 toDoDelete = allDatas[indexPath.row]
             default:

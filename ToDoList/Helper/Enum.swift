@@ -12,15 +12,15 @@ enum Status: Int, CaseIterable {
     case toDo = 1
     case inProgress = 2
     case done = 3
+    
+    static var statusPicker: [Status] = [.toDo, .inProgress, .done]
 }
 
 extension Status {
     var name: String {
         switch self {
-        case .all:
-            return "All"
-        case .toDo:
-            return "ToDo"
+        case .toDo, .all:
+            return "To Do"
         case .inProgress:
             return "In Progress"
         case .done:
@@ -32,4 +32,5 @@ extension Status {
 enum State {
     case add
     case edit
+    case view
 }

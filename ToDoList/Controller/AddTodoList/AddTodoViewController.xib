@@ -10,11 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddTodoViewController" customModule="ToDoList" customModuleProvider="target">
             <connections>
-                <outlet property="lablePickerView" destination="Bh7-7z-sJB" id="2qm-Bm-C16"/>
-                <outlet property="pickerDate" destination="pKq-df-tLf" id="0O9-W9-juc"/>
-                <outlet property="statusTextField" destination="Bh7-7z-sJB" id="5dp-P1-xOp"/>
-                <outlet property="textFieldTitle" destination="0Xa-E3-rRc" id="idK-cv-ABf"/>
-                <outlet property="textViewContent" destination="BNL-dF-Qe0" id="rvK-tF-1z3"/>
+                <outlet property="contentTextView" destination="BNL-dF-Qe0" id="g5R-ax-FAL"/>
+                <outlet property="datePickerView" destination="pKq-df-tLf" id="CrP-RY-595"/>
+                <outlet property="statusTextField" destination="Bh7-7z-sJB" id="oqu-dL-RaL"/>
+                <outlet property="titleTextField" destination="0Xa-E3-rRc" id="lwP-jh-jXI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

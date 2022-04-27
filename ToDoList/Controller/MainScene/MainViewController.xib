@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="ToDoList" customModuleProvider="target">
             <connections>
-                <outlet property="componentSegmentedControl" destination="cHg-hI-ZhO" id="cpq-bk-9gP"/>
+                <outlet property="statusSegment" destination="cHg-hI-ZhO" id="I3O-8g-hGo"/>
                 <outlet property="todoListTableView" destination="cGq-PK-grY" id="hOU-IR-6Oh"/>
                 <outlet property="view" destination="hAC-k7-fLe" id="NFk-zy-JAQ"/>
             </connections>
@@ -25,8 +25,8 @@
                     <color key="backgroundColor" red="0.40784313725490196" green="0.40392156862745099" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <segments>
                         <segment title="All"/>
-                        <segment title="Todo"/>
-                        <segment title="Improgres"/>
+                        <segment title="To do"/>
+                        <segment title="In Progres"/>
                         <segment title="Done"/>
                     </segments>
                     <connections>

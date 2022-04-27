@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol AddTodoViewControllerDelegate {
+protocol AddTodoViewControllerDelegate: AnyObject {
     func addDelegate(data: ToDo)
     func editDelegate(data: ToDo)
 }
@@ -15,85 +15,71 @@ protocol AddTodoViewControllerDelegate {
 class AddTodoViewController: BaseViewController, UIGestureRecognizerDelegate {
     // MARK: - View
 
-    @IBOutlet var statusTextField: UITextField!
-    @IBOutlet var lablePickerView: UITextField!
-    @IBOutlet private var textViewContent: UITextView!
-    @IBOutlet private var pickerDate: UIDatePicker!
-    @IBOutlet private var textFieldTitle: UITextField!
+    @IBOutlet private var statusTextField: UITextField!
+    @IBOutlet private var contentTextView: UITextView!
+    @IBOutlet private var datePickerView: UIDatePicker!
+    @IBOutlet private var titleTextField: UITextField!
 
-    var delegate: AddTodoViewControllerDelegate?
+    weak var delegate: AddTodoViewControllerDelegate?
+
+    private let titleTabBar = Title()
 
     // MARK: - data
 
-    let statusPickerView = UIPickerView()
-    var arrayOfStatus = ["ToDo", "In Progress", "Done"]
+    private lazy var statusPickerView: UIPickerView = {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.selectRow((dataTodo?.status.rawValue ?? 1) - 1, inComponent: 0, animated: true)
+        return pickerView
+    }()
+    
+    private lazy var statusToolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.tintColor = UIColor.blue
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: Status.done.name, style: .plain, target: self, action: #selector(closePickerView))
+        toolbar.setItems([spaceButton, doneButton], animated: false)
+        toolbar.isUserInteractionEnabled = true
+        return toolbar
+    }()
 
-    private var dataPickerStatus = Status.allCases
-    var checkData = true
-    var checkBack = true
+    private var arrayOfStatus = Status.statusPicker.map { $0.name }
+
+//    var checkData = true
     var state = State.add
     var dataTodo: ToDo?
     var getNewId: (() -> Int)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureItems()
-        createPickerView()
-        createToolbar()
         setupdataEdit()
-        boderContentTextView()
+        boderContentTextView(contentTextView: contentTextView)
         onTapViewCloseKeyBoard()
 
-        textFieldTitle.delegate = self
-        textViewContent.delegate = self
+        titleTextField.delegate = self
+        contentTextView.delegate = self
+        statusTextField.inputView = statusPickerView
+        statusTextField.inputAccessoryView = statusToolbar
     }
 
-    func onTapViewCloseKeyBoard() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(closePickerView))
-        view.addGestureRecognizer(tap)
-    }
-
-    func setupdataEdit() {
-        if dataTodo != nil {
-            textFieldTitle.text = dataTodo?.title
-            pickerDate.date = dataTodo?.timer ?? Date.now
-            textViewContent.text = dataTodo?.content
-            switch dataTodo?.status.rawValue {
-            case 0:
-                lablePickerView.text = "ToDo"
-            default:
-                lablePickerView.text = dataTodo?.status.name
-            }
-            pickerDate.date = dataTodo?.timer ?? Date.now
+    private func setupdataEdit() {
+        if let dataTodo = dataTodo {
+            titleTextField.text = dataTodo.title
+            statusTextField.text = dataTodo.status.name
+            contentTextView.text = dataTodo.content
+            datePickerView.date = dataTodo.timer
+            datePickerView.date = dataTodo.timer
+        } else {
+            statusTextField.text = Status.toDo.name
         }
     }
 
-    @objc func createPickerView() {
-        statusPickerView.delegate = self
-        statusPickerView.delegate?.pickerView?(statusPickerView, didSelectRow: 0, inComponent: 0)
-        statusTextField.inputView = statusPickerView
-    }
-
-    func createToolbar() {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        toolbar.tintColor = UIColor.blue
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(closePickerView))
-        toolbar.setItems([spaceButton, doneButton], animated: false)
-        toolbar.isUserInteractionEnabled = true
-        statusTextField.inputAccessoryView = toolbar
-    }
-
-    @objc func closePickerView() {
-        view.endEditing(true)
-    }
-
     private func configureItems() {
-        title = state == .add ? "Add ToDo" : "Edit ToDo"
+        title = state == .add ? titleTabBar.addTitleToDo : titleTabBar.editTitleToDo
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: state == .add ? "Add" : "Edit",
+            title: state == .add ? titleTabBar.addTitle : titleTabBar.editTitle,
             style: .done,
             target: self,
             action: #selector(addTodo(_:))
@@ -101,117 +87,54 @@ class AddTodoViewController: BaseViewController, UIGestureRecognizerDelegate {
         checkStateSelect()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     @objc private func addTodo(_ sender: UIBarButtonItem) {
+        guard titleTextField.text != "" else {
+            notifyIsNotTitle()
+            return
+        }
         switch state {
         case .add:
-            if dataTodo == nil {
-                if textFieldTitle.text == "" {
-                    notifyIsNotTitle()
-                } else {
-                    let restData = ToDo(id: -1, title: "", content: "", status: .all, timer: Date.now)
-                    let addData = setUpDataTodo(data: restData)
-                    delegate?.addDelegate(data: addData)
-                    navigationController?.popViewController(animated: true)
-                }
-
-            } else {
-                if textFieldTitle.text! == "" {
-                    notifyIsNotTitle()
-                } else {
-                    let editData = setUpDataTodo(data: dataTodo!)
-                    delegate?.editDelegate(data: editData)
-                    navigationController?.popViewController(animated: true)
-                }
-            }
-
-        case .edit:
-            if checkBack {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(
-                    title: "Save",
-                    style: .done,
-                    target: self,
-                    action: #selector(addTodo(_:))
-                )
-                state = .add
-                checkStateSelect()
-            } else {
-                navigationController?.popViewController(animated: true)
-            }
-            checkBack = !checkBack
-        }
-    }
-
-    func setUpDataTodo(data: ToDo) -> ToDo {
-        if data.id == -1 {
-            var statusNew = Status.toDo
-            switch lablePickerView.text! {
-            case "ToDo":
-                statusNew = .toDo
-            case "In Progress":
-                statusNew = .inProgress
-            case "Done":
-                statusNew = .done
-            default:
-                statusNew = .all
-            }
+            guard dataTodo == nil else { return }
             let newId = getNewId?() ?? 0
             let addData = ToDo(id: newId + 1,
-                               title: String(textFieldTitle.text!),
-                               content: String(textViewContent.text!),
-                               status: statusNew,
-                               timer: pickerDate.date)
-            return addData
-        } else {
-            var editData = data
-            editData.title = textFieldTitle.text ?? ""
-            editData.content = textViewContent.text ?? ""
-            editData.timer = pickerDate.date
-            print(pickerDate.date)
-
-            switch lablePickerView.text! {
-            case "ToDo":
-                editData.status = Status.toDo
-            case "In Progress":
-                editData.status = Status.inProgress
-            case "Done":
-                editData.status = Status.done
-            default:
-                editData.status = Status.all
+                               title: String(titleTextField.text!),
+                               content: String(contentTextView.text!),
+                               status: Status.statusPicker.first { $0.name == statusTextField.text } ?? .toDo,
+                               timer: datePickerView.date)
+            delegate?.addDelegate(data: addData)
+            navigationController?.popViewController(animated: true)
+        case .edit:
+            guard var dataTodo = dataTodo else {
+                return
             }
-            return editData
-        }
-    }
 
-    func notifyIsNotTitle() {
-        let alert = UIAlertController(title: "Untitled", message: "Please enter data", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true) {
+            dataTodo.title = titleTextField.text ?? ""
+            dataTodo.content = contentTextView.text ?? ""
+            dataTodo.status = Status.statusPicker.first {
+                $0.name == statusTextField.text
+            } ?? .toDo
+            dataTodo.timer = datePickerView.date
+            delegate?.editDelegate(data: dataTodo)
+            navigationController?.popViewController(animated: true)
+        case .view:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                title: "Save",
+                style: .done,
+                target: self,
+                action: #selector(addTodo(_:))
+            )
+            state = .edit
+            checkStateSelect()
         }
-    }
-
-    func boderContentTextView() {
-        textViewContent.layer.borderWidth = 0.5
-        textViewContent.layer.borderColor =
-            UIColor.black.cgColor
-        textViewContent.layer.masksToBounds = true
-        textViewContent.layer.cornerRadius = 10
-        textViewContent.layer.shadowColor = UIColor.black.cgColor
-        textViewContent.layer.shadowOffset = CGSize(width: -3, height: -3)
-        textViewContent.layer.shadowOpacity = 0.1
-        textViewContent.layer.shadowRadius = 10
     }
 
     // MARK: - CHECK STATE SELECT
 
-    func checkStateSelect() {
-        textViewContent.isEditable = state == .add
-        pickerDate.isEnabled = state == .add
-        lablePickerView.isEnabled = state == .add
-        textFieldTitle.isEnabled = state == .add
+    private func checkStateSelect() {
+        contentTextView.isEditable = state != .view
+        datePickerView.isEnabled = state != .view
+        statusTextField.isEnabled = state != .view
+        titleTextField.isEnabled = state != .view
     }
 }
 
@@ -219,7 +142,7 @@ class AddTodoViewController: BaseViewController, UIGestureRecognizerDelegate {
 
 extension AddTodoViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
+        true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -230,7 +153,7 @@ extension AddTodoViewController: UITextFieldDelegate {
 
 extension AddTodoViewController: UITextViewDelegate {
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        return true
+        true
     }
 }
 
