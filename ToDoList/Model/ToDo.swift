@@ -6,7 +6,11 @@
 //
 
 import UIKit
+
 struct ToDo {
-    let title:String
-    let isCheck = false
+    var id: Int
+    var title: String
+    var content: String
+    var status: Status
+    var timer: Date
 }

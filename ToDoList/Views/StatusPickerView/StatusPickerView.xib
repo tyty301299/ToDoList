@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StatusPickerView" customModule="ToDoList" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="8td-Gn-vkj"/>
+                <outlet property="doneToolBar" destination="jyX-0p-NdO" id="OjY-Od-kJe"/>
+                <outlet property="statusPickerView" destination="leM-ad-V35" id="kyi-pZ-CFQ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="705"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jyX-0p-NdO">
+                    <rect key="frame" x="0.0" y="44" width="414" height="99"/>
+                    <items>
+                        <barButtonItem title="Item" id="Wwx-hd-Sk5"/>
+                    </items>
+                </toolbar>
+                <pickerView contentMode="scaleToFill" id="leM-ad-V35">
+                    <rect key="frame" x="0.0" y="77" width="414" height="628"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </pickerView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <constraints>
+                <constraint firstItem="leM-ad-V35" firstAttribute="leading" secondItem="jyX-0p-NdO" secondAttribute="trailing" id="HAW-hc-CqE"/>
+                <constraint firstItem="jyX-0p-NdO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="UNu-dH-wfX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="jyX-0p-NdO" secondAttribute="trailing" id="VTy-8W-tNM"/>
+                <constraint firstItem="jyX-0p-NdO" firstAttribute="height" secondItem="vUN-kp-3ea" secondAttribute="height" multiplier="0.15" id="eze-r4-gtR"/>
+                <constraint firstItem="jyX-0p-NdO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="w6J-DV-Xa2"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="128.98550724637681" y="-63.28125"/>
+        </view>
+    </objects>
+</document>
